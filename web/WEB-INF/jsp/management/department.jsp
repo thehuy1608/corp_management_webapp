@@ -122,7 +122,7 @@
                 </button>
                 <div class="style_side_menu_current_item">Department</div>
                 <div class="style_department_management_search_form_wrapper">
-                    <form action="${pageContext.servletContext.contextPath}/management/department/search.htm" class="style_department_management_search_form" method="get">
+                    <form action="${pageContext.servletContext.contextPath}/department/search" class="style_department_management_search_form" method="post">
                         <div class="style_department_management_search_form_search_field_wrapper">
                             <div class="style_department_management_search_form_input_text_wrapper">
                                 <label for="id_department_management_search_form_input_text" class="style_form_input_text_label" id="id_department_management_search_form_input_text_label">Find department</label>
@@ -152,10 +152,10 @@
                             <c:forEach items="${departments_list}" var="department">
                                 <tr>
                                     <td>${department_result_index}</td>
-                                    <td>${department.departmentName}</td>
+                                    <td id="department_list_item_name_${department.departmentId}">${department.departmentName}</td>
                                     <td class="style_department_search_form_table_action_wrapper">
                                         <button class="style_department_search_form_table_action_view_button style_form_view_button" 
-                                                onclick="loadDepartment(${department.departmentId}, reload_div, toggle_department_detail, '#id_department_detail_modal');">
+                                                onclick="load_department_to_view(${department.departmentId});">
                                             <svg style="fill: white; padding-top: 4px;" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                                             <g>
                                             <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path>
@@ -163,7 +163,7 @@
                                             </svg>
                                         </button>
                                         <button class="style_department_search_form_table_action_edit_button style_form_edit_button" 
-                                                onclick="loadDepartment(${department.departmentId}, reload_div, toggle_department_detail_form, '#id_department_detail_form_modal');">
+                                                onclick="load_department_to_form(${department.departmentId});">
                                             <svg style="fill: white; padding-top: 2px;" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                                             <g>
                                             <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path>
@@ -196,16 +196,14 @@
                         <span class="style_department_detail_modal_content_label">
                             Department ID:
                         </span>
-                        <span class="style_department_detail_modal_content_content">
-                            ${current_department.departmentId}
+                        <span id="view_department_id" class="style_department_detail_modal_content_content">
                         </span>
                     </div>
                     <div class="style_department_detail_modal_content_item">
                         <span class="style_department_detail_modal_content_label">
                             Department Name:
                         </span>
-                        <span class="style_department_detail_modal_content_content">
-                            ${current_department.departmentName}
+                        <span id="view_department_name" class="style_department_detail_modal_content_content">
                         </span>
                     </div>
                 </div>
@@ -217,21 +215,19 @@
                     <img src="${img_close}" alt="">
                 </button>
                 <div class="style_department_detail_modal_content">
-                    <form action="${pageContext.servletContext.contextPath}/management/department/edit.htm">
-                        <div class="style_department_detail_modal_content_item">
-                            <div class="style_department_detail_modal_content_label">
-                                Department name:
-                            </div>
-                            <input type="hidden" name="edit_department_id" value="${current_department.departmentId}"/>
-                            <input type="text" value="${current_department.departmentName}" name="edit_department_name" class="style_form_input_text" id="id_department_detail_form_modal_input_text"
-                                   onfocus="show_focus_border('id_department_management_detail_form_input_text_focus_border')" onfocusout="hide_focus_border('id_department_management_detail_form_input_text_focus_border')">
-                            <div class="style_form_textfield_border" id="id_department_management_detail_form_input_text_border"></div>
-                            <div class="style_form_textfield_focus_border" id="id_department_management_detail_form_input_text_focus_border"></div>
+                    <div class="style_department_detail_modal_content_item">
+                        <div class="style_department_detail_modal_content_label">
+                            Department name:
                         </div>
-                        <div style="margin-top: 30px;">
-                            <button class="style_department_detail_form_submit_button style_primary_button">edit</button>
-                        </div>
-                    </form>
+                        <input type="hidden" id="edit_department_id" name="edit_department_id" value=""/>
+                        <input type="text" id="edit_department_name" value="" name="edit_department_name" class="style_form_input_text"
+                               onfocus="show_focus_border('id_department_management_detail_form_input_text_focus_border')" onfocusout="hide_focus_border('id_department_management_detail_form_input_text_focus_border')">
+                        <div class="style_form_textfield_border" id="id_department_management_detail_form_input_text_border"></div>
+                        <div class="style_form_textfield_focus_border" id="id_department_management_detail_form_input_text_focus_border"></div>
+                    </div>
+                    <div style="margin-top: 30px;">
+                        <button onclick="edit_department()" class="style_department_detail_form_submit_button style_primary_button">edit</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -239,59 +235,55 @@
     <script async src="${js_jquery}"></script>
     <script async src="${js_myscripts}"></script>
     <script>
-                                       //Show/hide department detail
-                                       var toggle_department_detail = function () {
-                                           var id_department_detail_wrapper = document.getElementById(
-                                                   "id_department_detail_wrapper"
-                                                   );
-                                           var id_department_detail_modal = document.getElementById(
-                                                   "id_department_detail_modal"
-                                                   );
-                                           var style_department_detail_modal = window.getComputedStyle(
-                                                   id_department_detail_modal
-                                                   );
-                                           id_department_detail_wrapper.classList.toggle(
-                                                   "style_department_detail_wrapper_toggle"
-                                                   );
-                                           if (style_department_detail_modal.marginTop === "-500px") {
-                                               id_department_detail_modal.style.marginTop = "100px";
-                                           } else {
-                                               id_department_detail_modal.style.marginTop = "-500px";
-                                           }
-                                       };
+                            //Load Current Department via AJAX to modal view
+                            function load_department_to_view(view_department_id) {
+                                $.ajax({
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    url: "${pageContext.servletContext.contextPath}/department/get_department?department_id=" + view_department_id,
+                                    dataType: 'json',
+                                    timeout: 10000
+                                }).then(function (data) {
+                                    $('#view_department_id').text(data.departmentId);
+                                    $('#view_department_name').text(data.departmentName);
+                                    toggle_department_detail();
+                                });
+                            }
+                            ;
 
-                                       var toggle_department_detail_form = function () {
-                                           var id_department_detail_form_wrapper = document.getElementById(
-                                                   "id_department_detail_form_wrapper"
-                                                   );
-                                           var id_department_detail_form_modal = document.getElementById(
-                                                   "id_department_detail_form_modal"
-                                                   );
-                                           var style_department_detail_form_modal = window.getComputedStyle(
-                                                   id_department_detail_form_modal
-                                                   );
-                                           id_department_detail_form_wrapper.classList.toggle(
-                                                   "style_department_detail_wrapper_toggle"
-                                                   );
-                                           if (style_department_detail_form_modal.marginTop === "-500px") {
-                                               id_department_detail_form_modal.style.marginTop = "100px";
-                                           } else {
-                                               id_department_detail_form_modal.style.marginTop = "-500px";
-                                           }
-                                       };
+                            //Load Current Department via AJAX to modal form
+                            function load_department_to_form(edit_department_id) {
+                                $.ajax({
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    url: "${pageContext.servletContext.contextPath}/department/get_department?department_id=" + edit_department_id,
+                                    dataType: 'json',
+                                    timeout: 10000
+                                }).then(function (data) {
+                                    $('#edit_department_id').val(data.departmentId);
+                                    $('#edit_department_name').val(data.departmentName);
+                                    toggle_department_detail_form();
+                                });
+                            }
+                            ;
 
-                                       //AJAX request for get current department
-                                       function loadDepartment(current_department_id, cFunction1, cFunction2, div_id) {
-                                           var xhttp = new XMLHttpRequest();
-                                           xhttp.onreadystatechange = function () {
-                                               if (this.readyState === 4 && this.status === 200) {
-                                                   cFunction1(div_id);
-                                                   cFunction2();
-                                               }
-                                           };
-                                           xhttp.open('POST', '${pageContext.servletContext.contextPath}/management/department/view.htm?view_department_id=' + current_department_id, true);
-                                           xhttp.send();
-                                       }
+                            //Edit Current Department On Form
+                            function edit_department() {
+                                var department_id = $('#edit_department_id').val();
+                                var department_name = $('#edit_department_name').val();
+                                $.ajax({
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    url: "${pageContext.servletContext.contextPath}/department/edit_department?edit_department_id=" + department_id + "&edit_department_name=" + department_name,
+                                    dataType: 'json',
+                                    timeout: 10000
+                                }).then(function (data) {
+                                    $('#edit_department_id').val(data.departmentId);
+                                    $('#edit_department_name').val(data.departmentName);
+                                    var department_name_id = '#department_list_item_name_' + data.departmentId;
+                                    $(department_name_id).text(data.departmentName);
+                                });
+                            }
 
 
     </script>

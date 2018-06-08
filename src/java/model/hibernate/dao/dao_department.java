@@ -52,7 +52,7 @@ public class dao_department {
             hibernate_session.beginTransaction();
             String hql = "SELECT department FROM Department department WHERE department.departmentName LIKE :department_name";
             Query query = hibernate_session.createQuery(hql);
-            query.setParameter("department_name", department_name);
+            query.setParameter("department_name", "%" + department_name + "%");
             departments_list = query.list();
         } catch (Exception e) {
             hibernate_session.flush();
