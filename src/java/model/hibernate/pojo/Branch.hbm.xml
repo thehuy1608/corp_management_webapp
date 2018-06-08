@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2018 5:38:27 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.hibernate.pojo.Branch" table="branch" catalog="db_corp_management" optimistic-lock="version">
+        <id name="branchId" type="java.lang.Integer">
+            <column name="branchId" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="province" class="model.hibernate.pojo.Province" fetch="select">
+            <column name="fkProvinceId" not-null="true" />
+        </many-to-one>
+        <property name="branchName" type="string">
+            <column name="branchName" length="50" not-null="true" />
+        </property>
+        <property name="branchAddress" type="string">
+            <column name="branchAddress" length="100" not-null="true" />
+        </property>
+        <property name="branchHotLine" type="string">
+            <column name="branchHotLine" length="20" not-null="true" />
+        </property>
+        <property name="branchEmail" type="string">
+            <column name="branchEmail" length="100" not-null="true" />
+        </property>
+        <set name="employees" table="employee" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fkBranchId" not-null="true" />
+            </key>
+            <one-to-many class="model.hibernate.pojo.Employee" />
+        </set>
+    </class>
+</hibernate-mapping>

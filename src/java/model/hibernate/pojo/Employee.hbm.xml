@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2018 5:38:27 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.hibernate.pojo.Employee" table="employee" catalog="db_corp_management" optimistic-lock="version">
+        <id name="employeeId" type="java.lang.Integer">
+            <column name="employeeId" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="branch" class="model.hibernate.pojo.Branch" fetch="select">
+            <column name="fkBranchId" not-null="true" />
+        </many-to-one>
+        <many-to-one name="department" class="model.hibernate.pojo.Department" fetch="select">
+            <column name="fkDepartmentId" not-null="true" />
+        </many-to-one>
+        <property name="employeeName" type="string">
+            <column name="employeeName" length="100" not-null="true" />
+        </property>
+        <property name="employeeGender" type="string">
+            <column name="employeeGender" length="10" not-null="true" />
+        </property>
+        <property name="employeeAvatar" type="string">
+            <column name="employeeAvatar" length="300" not-null="true" />
+        </property>
+        <property name="employeeDateOfBirth" type="date">
+            <column name="employeeDateOfBirth" length="10" not-null="true" />
+        </property>
+        <property name="employeeSalary" type="float">
+            <column name="employeeSalary" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="employeeLevel" type="int">
+            <column name="employeeLevel" not-null="true" />
+        </property>
+        <property name="employeePhoneNumber" type="string">
+            <column name="employeePhoneNumber" length="20" not-null="true" />
+        </property>
+        <property name="employeeEmail" type="string">
+            <column name="employeeEmail" length="100" not-null="true" />
+        </property>
+        <property name="employeeDescription" type="string">
+            <column name="employeeDescription" length="100" not-null="true" />
+        </property>
+        <property name="modifiedDate" type="date">
+            <column name="modifiedDate" length="10" not-null="true" />
+        </property>
+        <set name="performances" table="performance" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fkEmployeeId" not-null="true" />
+            </key>
+            <one-to-many class="model.hibernate.pojo.Performance" />
+        </set>
+        <set name="administrators" table="administrator" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fkEmployeeId" not-null="true" />
+            </key>
+            <one-to-many class="model.hibernate.pojo.Administrator" />
+        </set>
+    </class>
+</hibernate-mapping>

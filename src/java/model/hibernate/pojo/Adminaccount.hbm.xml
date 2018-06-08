@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2018 5:38:27 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.hibernate.pojo.Adminaccount" table="adminaccount" catalog="db_corp_management" optimistic-lock="version">
+        <id name="fkAdministratorId" type="int">
+            <column name="fkAdministratorId" />
+            <generator class="foreign">
+                <param name="property">administrator</param>
+            </generator>
+        </id>
+        <one-to-one name="administrator" class="model.hibernate.pojo.Administrator" constrained="true"></one-to-one>
+        <property name="accountUsername" type="string">
+            <column name="accountUsername" length="50" not-null="true" />
+        </property>
+        <property name="accountPassword" type="string">
+            <column name="accountPassword" length="256" not-null="true" />
+        </property>
+        <property name="passwordSalt" type="string">
+            <column name="passwordSalt" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

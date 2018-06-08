@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2018 5:38:27 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.hibernate.pojo.Province" table="province" catalog="db_corp_management" optimistic-lock="version">
+        <id name="provinceId" type="java.lang.Integer">
+            <column name="provinceId" />
+            <generator class="identity" />
+        </id>
+        <property name="provinceName" type="string">
+            <column name="provinceName" length="50" not-null="true" />
+        </property>
+        <property name="provincePostalCode" type="string">
+            <column name="provincePostalCode" length="20" not-null="true" />
+        </property>
+        <set name="branches" table="branch" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fkProvinceId" not-null="true" />
+            </key>
+            <one-to-many class="model.hibernate.pojo.Branch" />
+        </set>
+    </class>
+</hibernate-mapping>

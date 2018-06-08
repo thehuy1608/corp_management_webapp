@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2018 5:38:27 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.hibernate.pojo.Performance" table="performance" catalog="db_corp_management" optimistic-lock="version">
+        <id name="performanceId" type="java.lang.Integer">
+            <column name="performanceId" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="administrator" class="model.hibernate.pojo.Administrator" fetch="select">
+            <column name="fkAdministratorId" not-null="true" />
+        </many-to-one>
+        <many-to-one name="employee" class="model.hibernate.pojo.Employee" fetch="select">
+            <column name="fkEmployeeId" not-null="true" />
+        </many-to-one>
+        <property name="performanceResult" type="int">
+            <column name="performanceResult" not-null="true" />
+        </property>
+        <property name="performanceDescription" type="string">
+            <column name="performanceDescription" length="200" not-null="true" />
+        </property>
+        <property name="performanceAddedDate" type="date">
+            <column name="performanceAddedDate" length="10" not-null="true" />
+        </property>
+        <property name="performanceModifiedDate" type="date">
+            <column name="performanceModifiedDate" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
