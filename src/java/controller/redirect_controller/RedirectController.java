@@ -7,16 +7,22 @@ package controller.redirect_controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
  * @author WIN 10
  */
 @Controller
+@RequestMapping("/management")
 public class RedirectController {
-    @RequestMapping(value = "/department", method = RequestMethod.GET)
-    public String go_to_department() {
+
+    @RequestMapping("/department")
+    public String show_department() {
         return "management/department";
+    }
+
+    @RequestMapping("/employee")
+    public String show_employee() {
+        return "management/employee";
     }
 }

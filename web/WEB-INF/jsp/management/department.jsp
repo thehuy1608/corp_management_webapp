@@ -18,7 +18,7 @@
         <spring:url var="context" value="${pageContext.servletContext.contextPath}"></spring:url>
         <spring:url var="css_components" value="/assets/css/components.css" context="${pageContext.servletContext.contextPath}"></spring:url>
         <spring:url var="css_side_menu" value="/assets/css/side_menu.css" context="${pageContext.servletContext.contextPath}"></spring:url>
-        <spring:url var="js_myscripts" value="/assets/js/my_scripts.js" context="${pageContext.servletContext.contextPath}"></spring:url>
+        <spring:url var="js_myeffects" value="/assets/js/my_effects.js" context="${pageContext.servletContext.contextPath}"></spring:url>
         <spring:url var="js_jquery" value="/assets/js/jquery_3.3.1.js" context="${pageContext.servletContext.contextPath}"></spring:url>
 
 
@@ -37,7 +37,7 @@
         <link rel="stylesheet" href="${css_side_menu}">
         <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
         <style>
-            body{margin:0;padding:0;width:100%;min-height:600px;font-family:Roboto,sans-serif}.style_department_management_wrapper{z-index:10}.style_main_container{float:right;display:grid;grid-template-columns:100px auto 100px;grid-template-rows:80px 50px auto 50px;width:calc(100% - 260px);min-height:600px;height:100vh;background-color:#eee;transition:.35s ease}.style_main_container_expand{width:calc(100% - 80px);transition:.35s ease}.style_department_management_search_form_wrapper{grid-column:2/3;grid-row:3/4}.style_department_management_search_form{display:grid;grid-template-columns:auto;grid-template-rows:80px 10px}.style_department_management_search_form_search_field_wrapper{grid-row:1/2;display:grid;grid-template-columns:auto 50px}.style_department_management_search_form_input_text_wrapper{grid-column:1/2;width:100%;height:60px;align-self:center}.style_department_management_search_form_button{grid-column:2/3;justify-self:right;align-self:center}.style_department_management_search_form_table_wrapper{grid-row:2/3;width:100%;display:grid;grid-template-rows:60px auto 25px;grid-template-columns:20px auto 20px;background-color:#fff;border-radius:6px;box-shadow:0 1px 4px 0 rgba(0,0,0,.14)}.style_department_management_search_form_table_result{grid-row:1/2;grid-column:2/3;font-size:18px;color:#3c4858;align-self:center}.style_department_management_search_form_table{grid-row:2/3;grid-column:2/3;width:100%;border-collapse:collapse;font-size:1em}.style_department_management_search_form_table tr{height:50px;border-bottom:1px solid #d3d3d3}.style_department_management_search_form_table tr:last-child{border:none}.style_department_management_search_form_table td,th{padding:5px}.style_department_management_search_form_table th{color:rgba(0,0,0,.87);text-align:left;font-weight:300;font-size:18px}.style_department_management_search_form_table th:last-child{text-align:right}.style_department_management_search_form_table td{color:rgba(0,0,0,.87)}.style_department_search_form_table_action_wrapper{padding:0!important;display:grid;grid-template-columns:auto 50px 50px 50px 10px;grid-template-rows:50px}.style_department_search_form_table_action_view_button{grid-column:2/3;grid-row:1/2}.style_department_search_form_table_action_edit_button{grid-column:3/4;grid-row:1/2}.style_department_search_form_table_action_delete_button{grid-column:4/5;grid-row:1/2}.style_department_detail_wrapper{position:absolute;width:100%;min-height:600px;height:100%;z-index:20;visibility:hidden;opacity:0;background-color:rgba(0,0,0,.3);transition:all .5s linear}.style_department_detail_wrapper_toggle{visibility:visible;opacity:1;transition:all .2s linear}.style_department_detail_modal{position:absolute;width:500px;height:400px;margin-top:-500px;margin-left:calc((100vw - 500px)/ 2);background-color:#fff;border-radius:6px;box-shadow:0 1px 4px 0 gray;display:grid;grid-template-rows:10px 20px auto;grid-template-columns:10px auto 20px 10px;grid-gap:10px;transition:margin-top .5s ease}.style_department_detail_modal_close_button,.style_department_detail_modal_close_button>img{width:20px;display:inline-block;height:20px}.style_department_detail_modal_close_button{grid-row:2/3;grid-column:3/4;margin:0;padding:0;outline:0;border:none;background-color:transparent;cursor:pointer}.style_department_detail_modal_content{grid-row:3/4;grid-column:2/4}.style_department_detail_modal_content_item{width:auto;height:20px;line-height:30px;margin-top:30px}.style_department_detail_modal_content_item:first-child{margin-top:0}.style_department_detail_modal_content_label{font-size:18px;color:#3c4858;font-weight:600}.style_department_detail_modal_content_content{font-size:18 px;color:#3c4858;margin-left:20px}.style_department_detail_form_submit_button{float:right;margin-top:60px}
+            body{margin:0;padding:0;width:100%;min-height:768px;height:100%;font-family:Roboto,sans-serif}.style_main_container{float:right;display:grid;grid-template-columns:100px auto 100px;grid-template-rows:80px 50px auto 50px;width:calc(100% - 260px);min-height:768px;height:auto;background-color:#eee;transition:.35s ease}.style_main_container_expand{width:calc(100% - 80px);transition:.35s ease}.style_department_management_search_form_wrapper{grid-column:2/3;grid-row:3/4}.style_department_management_search_form{display:grid;grid-template-columns:auto;grid-template-rows:80px 20px}.style_department_management_search_form_search_field_wrapper{grid-row:1/2;display:grid;grid-template-columns:auto 50px}.style_department_management_search_form_input_text_wrapper{grid-column:1/2;width:100%;height:60px;align-self:center}.style_department_management_search_form_button{grid-column:2/3;justify-self:right;align-self:center}.style_department_management_search_form_table_wrapper{grid-row:2/3;width:100%;display:grid;grid-template-rows:60px auto 25px;grid-template-columns:20px auto 20px;background-color:#fff;border-radius:6px;box-shadow:0 1px 4px 0 rgba(0,0,0,.14)}.style_department_management_search_form_table_result{grid-row:1/2;grid-column:2/3;font-size:18px;color:#3c4858;align-self:center}.style_department_management_search_form_table{grid-row:2/3;grid-column:2/3;width:100%;border-collapse:collapse;font-size:1em}.style_department_management_search_form_table tr{height:50px;border-bottom:1px solid #d3d3d3}.style_department_management_search_form_table tr:last-child{border:none}.style_department_management_search_form_table td,th{padding:5px}.style_department_management_search_form_table th{color:rgba(0,0,0,.87);text-align:left;font-weight:300;font-size:18px}.style_department_management_search_form_table th:last-child{text-align:right}.style_department_management_search_form_table td{color:rgba(0,0,0,.87)}.style_department_search_form_table_action_wrapper{padding:0!important;display:grid;grid-template-columns:auto 50px 50px 50px 10px;grid-template-rows:50px}.style_department_search_form_table_action_view_button{grid-column:2/3;grid-row:1/2}.style_department_search_form_table_action_edit_button{grid-column:3/4;grid-row:1/2}.style_department_search_form_table_action_delete_button{grid-column:4/5;grid-row:1/2}.style_department_detail_wrapper{position:fixed;width:100%;min-height:768px;height:auto;z-index:20;visibility:hidden;opacity:0;background-color:rgba(0,0,0,.3);transition:all .5s linear}.style_department_detail_wrapper_toggle{visibility:visible;opacity:1;transition:all .2s linear}.style_department_detail_modal{position:absolute;width:500px;height:400px;margin-top:-500px;margin-left:calc((100vw - 500px)/ 2);background-color:#fff;border-radius:6px;box-shadow:0 1px 4px 0 gray;display:grid;grid-template-rows:10px 20px auto;grid-template-columns:10px auto 20px 10px;grid-gap:10px;transition:margin-top .5s ease}.style_department_detail_modal_close_button,.style_department_detail_modal_close_button>img{width:20px;display:inline-block;height:20px}.style_department_detail_modal_close_button{grid-row:2/3;grid-column:3/4;margin:0;padding:0;outline:0;border:none;background-color:transparent;cursor:pointer}.style_department_detail_modal_content{grid-row:3/4;grid-column:2/4}.style_department_detail_modal_content_item{width:auto;height:20px;line-height:30px;margin-top:30px}.style_department_detail_modal_content_item:first-child{margin-top:0}.style_department_detail_modal_content_label{font-size:18px;color:#3c4858;font-weight:600}.style_department_detail_modal_content_content{font-size:18 px;color:#3c4858;margin-left:20px}.style_department_detail_form_submit_button{float:right;margin-top:60px}
         </style>
         <title>Department</title>
     </head>
@@ -122,12 +122,12 @@
                 </button>
                 <div class="style_side_menu_current_item">Department</div>
                 <div class="style_department_management_search_form_wrapper">
-                    <form action="${pageContext.servletContext.contextPath}/department/search" class="style_department_management_search_form" method="post">
+                    <form action="${pageContext.servletContext.contextPath}/department/" class="style_department_management_search_form" method="get">
                         <div class="style_department_management_search_form_search_field_wrapper">
                             <div class="style_department_management_search_form_input_text_wrapper">
                                 <label for="id_department_management_search_form_input_text" class="style_form_input_text_label" id="id_department_management_search_form_input_text_label">Find department</label>
-                                <input type="text" name="department_name" value="" class="style_form_input_text" id="id_department_management_search_form_input_text" onfocus="show_focus_border('id_department_management_search_form_input_text_focus_border'); show_focus_label('id_department_management_search_form_input_text_label');"
-                                       onfocusout="hide_focus_border('id_department_management_search_form_input_text_focus_border'); hide_focus_label('id_department_management_search_form_input_text_label');">
+                                <input type="text" name="search_department_name" value="" class="style_form_input_text" id="id_department_management_search_form_input_text" onfocus="show_focus_border('id_department_management_search_form_input_text_focus_border'); show_focus_label('id_department_management_search_form_input_text_label');"
+                                       onfocusout="hide_focus_border('id_department_management_search_form_input_text_focus_border'); hide_focus_label('id_department_management_search_form_input_text_label', 'id_department_management_search_form_input_text');">
                                 <div class="style_form_textfield_border" id="id_department_management_search_form_input_text_border"></div>
                                 <div class="style_form_textfield_focus_border" id="id_department_management_search_form_input_text_focus_border"></div>
                             </div>
@@ -232,60 +232,62 @@
             </div>
         </div>
     </body>
-    <script async src="${js_jquery}"></script>
-    <script async src="${js_myscripts}"></script>
+    <script src="${js_jquery}"></script>
+    <script src="${js_myeffects}"></script>
     <script>
                             //Load Current Department via AJAX to modal view
                             function load_department_to_view(view_department_id) {
                                 $.ajax({
-                                    type: "POST",
+                                    type: "GET",
                                     contentType: "application/json",
-                                    url: "${pageContext.servletContext.contextPath}/department/get_department?department_id=" + view_department_id,
+                                    url: "${pageContext.servletContext.contextPath}/department/" + view_department_id,
                                     dataType: 'json',
-                                    timeout: 10000
-                                }).then(function (data) {
-                                    $('#view_department_id').text(data.departmentId);
-                                    $('#view_department_name').text(data.departmentName);
-                                    toggle_department_detail();
+                                    timeout: 10000,
+                                    success: function (data) {
+                                        $('#view_department_id').text(data.id);
+                                        $('#view_department_name').text(data.departmentName);
+                                        toggle_department_detail();
+                                    }
                                 });
                             }
                             ;
-
                             //Load Current Department via AJAX to modal form
                             function load_department_to_form(edit_department_id) {
                                 $.ajax({
-                                    type: "POST",
+                                    type: "GET",
                                     contentType: "application/json",
-                                    url: "${pageContext.servletContext.contextPath}/department/get_department?department_id=" + edit_department_id,
+                                    url: "${pageContext.servletContext.contextPath}/department/" + edit_department_id,
                                     dataType: 'json',
-                                    timeout: 10000
-                                }).then(function (data) {
-                                    $('#edit_department_id').val(data.departmentId);
-                                    $('#edit_department_name').val(data.departmentName);
-                                    toggle_department_detail_form();
+                                    timeout: 10000,
+                                    success: function (data) {
+                                        $('#edit_department_id').val(data.id);
+                                        $('#edit_department_name').val(data.departmentName);
+                                        toggle_department_detail_form();
+                                    }
                                 });
                             }
                             ;
-
                             //Edit Current Department On Form
                             function edit_department() {
-                                var department_id = $('#edit_department_id').val();
+                                var department_id = parseInt($('#edit_department_id').val());
                                 var department_name = $('#edit_department_name').val();
+                                let data = {"id": department_id, "departmentName": department_name};
+                                console.log(JSON.stringify(data));
                                 $.ajax({
-                                    type: "POST",
+                                    type: "PUT",
                                     contentType: "application/json",
-                                    url: "${pageContext.servletContext.contextPath}/department/edit_department?edit_department_id=" + department_id + "&edit_department_name=" + department_name,
+                                    url: "${pageContext.servletContext.contextPath}/department/" + department_id,
+                                    data: JSON.stringify(data),
                                     dataType: 'json',
-                                    timeout: 10000
-                                }).then(function (data) {
-                                    $('#edit_department_id').val(data.departmentId);
-                                    $('#edit_department_name').val(data.departmentName);
-                                    var department_name_id = '#department_list_item_name_' + data.departmentId;
-                                    $(department_name_id).text(data.departmentName);
+                                    timeout: 10000,
+                                    success: function (data) {
+                                        $('#edit_department_id').val(data.departmentId);
+                                        $('#edit_department_name').val(data.departmentName);
+                                        var department_name_id = '#department_list_item_name_' + data.id;
+                                        $(department_name_id).text(data.departmentName);
+                                    }
                                 });
                             }
-
-
     </script>
 
 </html>

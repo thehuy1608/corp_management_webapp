@@ -3,21 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet;
+package config;
 
 /**
  *
  * @author WIN 10
  */
-import config.SpringWebConfig;
+import javax.servlet.Filter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class MyWebInitializer extends
+public class WebInitializer extends
         AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{SpringWebConfig.class};
+        return null;
     }
 
     @Override
@@ -27,7 +27,13 @@ public class MyWebInitializer extends
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return null;
+        return new Class[]{SpringWebConfig.class};
+    }
+    
+    @Override
+    protected Filter[] getServletFilters() {
+        Filter [] singleton = { new CORSFilter()};
+        return singleton;
     }
 
 }

@@ -34,4 +34,23 @@ public class dao_branch {
         hibernate_session.close();
         return branch;
     }
+    
+    public static boolean add_branch(Branch new_branch) {
+        Session hibernate_session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            hibernate_session.beginTransaction();
+            hibernate_session.save(new_branch);
+            hibernate_session.getTransaction().commit();
+        } catch (Exception e) {
+            if (hibernate_session.getTransaction().isActive()) {
+                hibernate_session.getTransaction().rollback();
+            }
+            hibernate_session.flush();
+            hibernate_session.close();
+            return false;
+        }
+        hibernate_session.flush();
+        hibernate_session.close();
+        return true;
+    }
 }

@@ -3,21 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.jsonview;
+package model.resource.department;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import model.hibernate.pojo.Department;
+import org.springframework.hateoas.ResourceSupport;
 
 /**
  *
  * @author WIN 10
  */
-public class SimpleDepartment {
+public class DepartmentResource extends ResourceSupport{
     private final int departmentId;
     private final String departmentName;
 
-    public SimpleDepartment(int departmentId, String departmentName) {
-        this.departmentId = departmentId;
-        this.departmentName = departmentName;
+    public DepartmentResource(Department department) {
+        this.departmentId = department.getDepartmentId();
+        this.departmentName = department.getDepartmentName();
     }
 
+    @JsonProperty("id")
     public int getDepartmentId() {
         return departmentId;
     }
