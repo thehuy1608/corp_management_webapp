@@ -20,6 +20,7 @@ public class EmployeeResource extends ResourceSupport {
     private Integer employeeId;
     private final Integer branchId;
     private final Integer departmentId;
+    private final String departmentName;
     private final String employeeName;
     private final String employeeGender;
     private final String employeeAvatar;
@@ -35,6 +36,7 @@ public class EmployeeResource extends ResourceSupport {
         this.employeeId = employee.getEmployeeId();
         this.branchId = employee.getBranch().getBranchId();
         this.departmentId = employee.getDepartment().getDepartmentId();
+        this.departmentName = employee.getDepartment().getDepartmentName();
         this.employeeName = employee.getEmployeeName();
         this.employeeGender = employee.getEmployeeGender();
         this.employeeAvatar = employee.getEmployeeAvatar();
@@ -51,6 +53,7 @@ public class EmployeeResource extends ResourceSupport {
     public EmployeeResource(
             @JsonProperty("branchId") Integer branchId,
             @JsonProperty("departmentId") Integer departmentId,
+            @JsonProperty("departmentName") String departmentName,
             @JsonProperty("employeeName") String employeeName,
             @JsonProperty("employeeGender") String employeeGender,
             @JsonProperty("employeeAvatar") String employeeAvatar,
@@ -64,6 +67,7 @@ public class EmployeeResource extends ResourceSupport {
     ) {
         this.branchId = branchId;
         this.departmentId = departmentId;
+        this.departmentName = departmentName;
         this.employeeName = employeeName;
         this.employeeGender = employeeGender;
         this.employeeAvatar = employeeAvatar;
@@ -87,6 +91,10 @@ public class EmployeeResource extends ResourceSupport {
 
     public Integer getDepartmentId() {
         return departmentId;
+    }
+    
+    public String getDepartmentName() {
+        return departmentName;
     }
 
     public String getEmployeeName() {

@@ -116,7 +116,6 @@ public class dao_employee {
     /**
      * Get all employee
      *
-     * @param first_result
      * @return
      */
     public static List<Employee> get_employees_list() {
@@ -193,5 +192,51 @@ public class dao_employee {
         hibernate_session.close();
 
         return employees_list;
+    }
+
+    public static int get_total_employees() {
+        int total_employees = 0;
+        Session hibernate_session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            hibernate_session.beginTransaction();
+            String hql = "SELECT COUNT(*) FROM Employee";
+            Query query = hibernate_session.createQuery(hql);
+            Long result = (Long) query.uniqueResult();
+            total_employees = result.intValue();
+        } catch (Exception e) {
+            hibernate_session.flush();
+            hibernate_session.close();
+            return total_employees;
+        }
+        hibernate_session.flush();
+        hibernate_session.close();
+        return total_employees;
+    }
+    
+    public static int get_total_employees(String employee_name) {
+        int total_employees = 0;
+        Session hibernate_session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            hibernate_session.beginTransaction();
+            String hql = "SELECT COUNT(*) FROM Employee employee WHERE employee.employeeName LIKE :employee_name";
+            Query query = hibernate_session.createQuery(hql);
+            query.setParameter("employee_name", "%" + employee_name + "%");
+            Long result = (Long) query.uniqueResult();
+            total_employees = result.intValue();
+        } catch (Exception e) {
+            hibernate_session.flush();
+            hibernate_session.close();
+            return total_employees;
+        }
+        hibernate_session.flush();
+        hibernate_session.close();
+        return total_employees;
+    }
+
+    public static void main(String[] args) {
+        List<Employee> employees = get_employees_list("James Butt", 0);
+        employees.forEach(employee -> {
+            System.out.println(employee.getEmployeeName()); 
+        });
     }
 }

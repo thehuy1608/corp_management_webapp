@@ -134,12 +134,13 @@
                     <span class="style_add_employee_section_text">Add new employee</span>
                 </div>
                 <div class="style_employee_search_form_wrapper">
-                    <form action="#" class="style_employee_search_form">
+                    <form action="${pageContext.servletContext.contextPath}/employee/ " method="get" class="style_employee_search_form">
                         <div class="style_employee_search_form_search_field_wrapper">
                             <div class="style_employee_search_form_input_text_wrapper">
                                 <label for="id_employee_search_form_input_text" class="style_form_input_text_label" id="id_employee_search_form_input_text_label">Find employee</label>
-                                <input type="text" name="" value="" class="style_form_input_text" id="id_employee_search_form_input_text" onfocus="show_focus_border('id_employee_search_form_input_text_focus_border'); show_focus_label('id_employee_search_form_input_text_label');"
+                                <input type="text" name="employee_search_name" value="" class="style_form_input_text" id="id_employee_search_form_input_text" onfocus="show_focus_border('id_employee_search_form_input_text_focus_border'); show_focus_label('id_employee_search_form_input_text_label');"
                                        onfocusout="hide_focus_border('id_employee_search_form_input_text_focus_border'); hide_focus_label('id_employee_search_form_input_text_label', 'id_employee_search_form_input_text');">
+                                <input type="hidden" name="page" value="${request.current_page_number}">
                                 <div class="style_form_textfield_border" id="id_employee_search_form_input_text_border"></div>
                                 <div class="style_form_textfield_focus_border" id="id_employee_search_form_input_text_focus_border"></div>
                             </div>
@@ -153,121 +154,123 @@
                         </div>
                     </form>
                     <div class="style_employee_search_form_table_wrapper">
-                        <div class="style_employee_search_form_table_result">Found 2 results</div>
+                        <c:if test="${requestScope.employees_list != null}">
+                            <div class="style_employee_search_form_table_result">Found ${requestScope.total_result} results for employee's name like "${requestScope.current_search_name}"</div>
+                        </c:if>
                         <table class="style_employee_search_form_table">
                             <tr>
                                 <th>#</th>
                                 <th>Avatar</th>
+                                <th>ID</th>
                                 <th>Full Name</th>
                                 <th>Department</th>
                                 <th>Email</th>
                                 <th>Actions</th>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <img src="${img_avatar}" alt="" class="style_employee_avatar">
-                                </td>
-                                <td>James Butt</td>
-                                <td>Accounting and Finance</td>
-                                <td>jbutt@gmail.com</td>
-                                <td class="style_employee_search_form_table_action_wrapper">
-                                    <button class="style_employee_search_form_table_action_view_button style_form_view_button" onclick="toggle_employee_detail()">
-                                        <svg style="fill: white; padding-top: 4px;" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                        <g>
-                                        <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path>
-                                        </g>
-                                        </svg>
-                                    </button>
-                                    <button class="style_employee_search_form_table_action_edit_button style_form_edit_button" onclick="toggle_employee_edit_form()">
-                                        <svg style="fill: white; padding-top: 2px;" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                        <g>
-                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path>
-                                        </g>
-                                        </svg>
-                                    </button>
-                                    <button class="style_employee_search_form_table_action_delete_button style_form_delete_button" onclick="toggle_employee_delete_form()">
-                                        <svg style="fill: white; padding-top: 4px;" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                                        <g>
-                                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-                                        </g>
-                                        </svg>
-                                    </button>
-                                </td>
-                            </tr>
+                            <c:choose>
+                                <c:when test="${requestScope.employees_list.size() >= 1}">
+
+                                    <c:set var="index" value="${requestScope.employee_index}"></c:set>
+                                    <c:forEach items="${requestScope.employees_list}" var="employee">
+                                        <tr>
+                                            <td>${index}</td>
+                                            <td>
+                                                <spring:url var="img_avatar_table" value="${employee.employeeAvatar}"></spring:url>
+                                                <img src="${img_avatar_table}" alt="" class="style_employee_avatar">
+                                            </td>
+                                            <td>${employee.employeeId}</td>
+                                            <td>${employee.employeeName}</td>
+                                            <td>${employee.department.departmentName}</td>
+                                            <td>${employee.employeeEmail}</td>
+                                            <td class="style_employee_search_form_table_action_wrapper">
+                                                <button class="style_employee_search_form_table_action_view_button style_form_view_button" onclick="load_employee_to_view(${employee.employeeId})">
+                                                    <svg style="fill: white; padding-top: 4px;" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <g>
+                                                    <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path>
+                                                    </g>
+                                                    </svg>
+                                                </button>
+                                                <button class="style_employee_search_form_table_action_edit_button style_form_edit_button" onclick="toggle_employee_edit_form()">
+                                                    <svg style="fill: white; padding-top: 2px;" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <g>
+                                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path>
+                                                    </g>
+                                                    </svg>
+                                                </button>
+                                                <button class="style_employee_search_form_table_action_delete_button style_form_delete_button" onclick="toggle_employee_delete_form()">
+                                                    <svg style="fill: white; padding-top: 4px;" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <g>
+                                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                                                    </g>
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <c:set var="index" value="${index + 1}"></c:set>
+                                    </c:forEach>
+                                </c:when>
+                                <c:when test="${requestScope.employees_list.size() < 1}">
+                                    <tr>
+                                        <td colspan="6" style="font-size: 30px; padding-top: 20px;">
+                                            Nothing to display
+                                        </td>
+                                    </tr>
+                                </c:when>
+                            </c:choose>
                         </table>
                     </div>
                 </div>
-                <div class="style_employee_pagination_wrapper">
-                    <ul class="style_pagination">
-                        <li class="style_pagination_item" id="id_pagination_item_previous">
-                            <button class="style_pagination_item_button" id="id_pagination_item_button_previous" onclick="pagination_previous_button_action()">
-                                <span class="style_pagination_item_button_icon">
-                                    <svg focusable="false" viewBox="0 0 35 18" aria-hidden="true">
-                                    <g>
-                                    <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"></path>
-                                    </g>
-                                    </svg>
-                                </span>
-                                <span class="style_pagination_item_button_cover"></span>
-                            </button>
-                        </li>
-                        <li class="style_pagination_item" id="id_pagination_item_1">
-                            <button class="style_pagination_item_button  style_pagination_item_button_active" id="id_pagination_item_button_1" onclick="toggle_active_pagination('#id_pagination_item_button_1')">
-                                <span class="style_pagination_item_button_text">1</span>
-                                <span class="style_pagination_item_button_cover"></span>
-                            </button>
-                        </li>
-                        <li class="style_pagination_item" id="id_pagination_item_2">
-                            <button class="style_pagination_item_button" id="id_pagination_item_button_2" onclick="toggle_active_pagination('#id_pagination_item_button_2')">
-                                <span class="style_pagination_item_button_text">2</span>
-                                <span class="style_pagination_item_button_cover"></span>
-                            </button>
-                        </li>
-                        <li class="style_pagination_item" id="id_pagination_item_3">
-                            <button class="style_pagination_item_button" id="id_pagination_item_button_3" onclick="toggle_active_pagination('#id_pagination_item_button_3')">
-                                <span class="style_pagination_item_button_text">3</span>
-                                <span class="style_pagination_item_button_cover"></span>
-                            </button>
-                        </li>
-                        <li class="style_pagination_item" id="id_pagination_item_4">
-                            <button class="style_pagination_item_button" id="id_pagination_item_button_4" onclick="toggle_active_pagination('#id_pagination_item_button_4')">
-                                <span class="style_pagination_item_button_text">4</span>
-                                <span class="style_pagination_item_button_cover"></span>
-                            </button>
-                        </li>
-                        <li class="style_pagination_item" id="id_pagination_item_5">
-                            <button class="style_pagination_item_button" id="id_pagination_item_button_5" onclick="toggle_active_pagination('#id_pagination_item_button_5')">
-                                <span class="style_pagination_item_button_text">5</span>
-                                <span class="style_pagination_item_button_cover"></span>
-                            </button>
-                        </li>
-                        <li class="style_pagination_item" id="id_pagination_item_6">
-                            <button class="style_pagination_item_button" id="id_pagination_item_button_6" onclick="toggle_active_pagination('#id_pagination_item_button_6')">
-                                <span class="style_pagination_item_button_text">6</span>
-                                <span class="style_pagination_item_button_cover"></span>
-                            </button>
-                        </li>
-                        <li class="style_pagination_item" id="id_pagination_item_7">
-                            <button class="style_pagination_item_button" id="id_pagination_item_button_7" onclick="load_pagination(2);">
-                                <span class="style_pagination_item_button_text">7</span>
-                                <span class="style_pagination_item_button_cover"></span>
-                            </button>
-                        </li>
-                        <li class="style_pagination_item" id="id_pagination_item_next">
-                            <button class="style_pagination_item_button" id="id_pagination_item_button_next" onclick="pagination_next_button_action(13)">
-                                <span class="style_pagination_item_button_icon">
-                                    <svg focusable="false" viewBox="0 0 35 18" aria-hidden="true">
-                                    <g>
-                                    <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"></path>
-                                    </g>
-                                    </svg>
-                                </span>
-                                <span class="style_pagination_item_button_cover"></span>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
+                <c:if test="${requestScope.employees_list.size() >= 1}">
+
+                    <div class="style_employee_pagination_wrapper">
+                        <ul class="style_pagination">
+                            <li class="style_pagination_item" id="id_pagination_item_previous">
+                                <c:choose>
+                                    <c:when test="${requestScope.current_page_number > 1 && requestScope.current_page_number <= requestScope.total_pages}">
+                                        <c:url var="pagination_previous_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=${requestScope.current_page_number - 1}"></c:url>
+                                    </c:when>
+                                    <c:when test="${requestScope.current_page_number <= 1}">
+                                        <c:url var="pagination_previous_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=1"></c:url>
+                                    </c:when>
+                                </c:choose>
+                                <button style="display: inline-block" class="style_circle_button" id="id_pagination_item_button_previous">
+                                    <a style="width: 40px; height: 40px; border-radius: 50%; display: inline-block; position: absolute" href = "${pagination_previous_button_action}"></a>
+                                    <span class="style_pagination_item_button_icon">
+                                        <svg focusable="false" viewBox="0 0 20 18" aria-hidden="true">
+                                        <g>
+                                        <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"></path>
+                                        </g>
+                                        </svg>
+                                    </span>
+                                    <span class="style_pagination_item_button_cover"></span>
+                                </button>
+                            </li>
+                            <span style="margin-right: 20px; margin-left: 20px;">Page ${requestScope.current_page_number} of ${requestScope.total_pages}</span>
+                            <li class="style_pagination_item" id="id_pagination_item_next">
+                                <c:choose>
+                                    <c:when test="${requestScope.current_page_number >= 1 && requestScope.current_page_number < requestScope.total_pages}">
+                                        <c:url var="pagination_next_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=${requestScope.current_page_number + 1}"></c:url>
+                                    </c:when>
+                                    <c:when test="${requestScope.current_page_number >= requestScope.total_pages}">
+                                        <c:url var="pagination_next_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=${requestScope.total_pages}"></c:url>
+                                    </c:when>
+                                </c:choose>
+                                <button class="style_circle_button" id="id_pagination_item_button_next" onclick="">
+                                    <a style="width: 40px; height: 40px; border-radius: 50%; display: inline-block; position: absolute" href = "${pagination_next_button_action}"></a>
+                                    <span class="style_pagination_item_button_icon">
+                                        <svg focusable="false" viewBox="0 0 20 18" aria-hidden="true">
+                                        <g>
+                                        <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"></path>
+                                        </g>
+                                        </svg>
+                                    </span>
+                                    <span class="style_pagination_item_button_cover"></span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </c:if>
+
             </div>
         </div>
         <div class="style_employee_detail_wrapper" id="id_employee_detail_wrapper">
@@ -277,68 +280,68 @@
                 </button>
                 <div class="style_employee_detail_modal_content" id="id_employee_detail_modal_content">
                     <div class="style_employee_detail_modal_avatar" id="id_employee_detail_modal_avatar">
-                        <img src="${img_avatar}" alt="">
+                        <img id="id_view_employee_avatar" src="${img_avatar_view}" alt="">
                     </div>
                     <div class="style_employee_detail_modal_content_viewport">
                         <div class="style_employee_detail_modal_content_wrapper">
                             <div class="style_employee_detail_modal_content_item">
                                 <div class="style_employee_detail_modal_content_item_label">ID:</div>
-                                <div class="style_employee_detail_modal_content_item_text">
+                                <div class="style_employee_detail_modal_content_item_text" id="id_view_employee_id">
                                     1
                                 </div>
                             </div>
 
                             <div class="style_employee_detail_modal_content_item">
                                 <div class="style_employee_detail_modal_content_item_label">Full Name:</div>
-                                <div class="style_employee_detail_modal_content_item_text">
+                                <div class="style_employee_detail_modal_content_item_text" id="id_view_employee_name">
                                     James Butt
                                 </div>
                             </div>
 
                             <div class="style_employee_detail_modal_content_item ">
                                 <div class="style_employee_detail_modal_content_item_label">Department:</div>
-                                <div class="style_employee_detail_modal_content_item_text">
+                                <div class="style_employee_detail_modal_content_item_text" id="id_view_employee_department">
                                     Accounting and Finance
                                 </div>
                             </div>
 
                             <div class="style_employee_detail_modal_content_item ">
                                 <div class="style_employee_detail_modal_content_item_label">Gender:</div>
-                                <div class="style_employee_detail_modal_content_item_text">
+                                <div class="style_employee_detail_modal_content_item_text"  id="id_view_employee_gender">
                                     Male
                                 </div>
                             </div>
 
                             <div class="style_employee_detail_modal_content_item ">
                                 <div class="style_employee_detail_modal_content_item_label">Date of Birth:</div>
-                                <div class="style_employee_detail_modal_content_item_text">
+                                <div class="style_employee_detail_modal_content_item_text" id="id_view_employee_date_of_birth">
                                     14-10-1989
                                 </div>
                             </div>
 
                             <div class="style_employee_detail_modal_content_item ">
                                 <div class="style_employee_detail_modal_content_item_label">Salary:</div>
-                                <div class="style_employee_detail_modal_content_item_text">
+                                <div class="style_employee_detail_modal_content_item_text"  id="id_view_employee_salary">
                                     $9853
                                 </div>
                             </div>
                             <div class="style_employee_detail_modal_content_item ">
                                 <div class="style_employee_detail_modal_content_item_label">Level:</div>
-                                <div class="style_employee_detail_modal_content_item_text">
+                                <div class="style_employee_detail_modal_content_item_text"  id="id_view_employee_level">
                                     6
                                 </div>
                             </div>
 
                             <div class="style_employee_detail_modal_content_item ">
                                 <div class="style_employee_detail_modal_content_item_label">Phone Number:</div>
-                                <div class="style_employee_detail_modal_content_item_text">
+                                <div class="style_employee_detail_modal_content_item_text"  id="id_view_employee_phone_number">
                                     504-621-8927
                                 </div>
                             </div>
 
                             <div class="style_employee_detail_modal_content_item ">
                                 <div class="style_employee_detail_modal_content_item_label">Email:</div>
-                                <div class="style_employee_detail_modal_content_item_text">
+                                <div class="style_employee_detail_modal_content_item_text"  id="id_view_employee_email">
                                     jbutt@gmail.com
                                 </div>
                             </div>
@@ -540,11 +543,11 @@
                             <div class="style_employee_detail_modal_content_item ">
                                 <div class="style_employee_detail_modal_content_item_label">Gender:</div>
                                 <select name="" id="employee_add_gender" class="style_form_combo_box" style="width: 96%">
-                                    <option value="">Male</option>
+                                    <option value="Male">Male</option>
 
-                                    <option value="">Female</option>
+                                    <option value="Female">Female</option>
 
-                                    <option value="">Other</option>
+                                    <option value="Other">Other</option>
                                 </select>
                             </div>
 
@@ -662,9 +665,9 @@
 
                             reader.onload = function (e) {
                                 $('#id_employee_add_form_avatar_image').attr('src', e.target.result);
-                            }
+                            };
 
-                            reader.readAsDataURL(input.files[0])
+                            reader.readAsDataURL(input.files[0]);
                         }
                     }
 
@@ -673,7 +676,7 @@
                         var departmentId = parseInt($('#employee_add_department').val());
                         var employeeName = $('input[name=employee_add_name]').val().trim();
                         var employeeGender = $('#employee_add_gender').val();
-                        var employeeAvatar = 'D:\\EmployeeData\\Avatar\\' + $('input:file[name=employee_add_avatar]').val().split('\\').pop();
+                        var employeeAvatar = $('#id_employee_add_form_avatar_image').attr('src');
                         var employeeDateOfBirth = $('input[name=employee_add_date_of_birth]').val();
                         var employeeSalary = parseFloat($('input[name=employee_add_salary]').val().trim());
                         var employeeLevel = parseInt($('#employee_add_level').val());
@@ -706,7 +709,30 @@
                             success: function (response_data) {
                                 toggle_employee_add_form();
                                 $("#id_employee_success_form_message").text('Add Employee Successful !');
-                                toggle_employee_success_form();                                
+                                toggle_employee_success_form();
+                            }
+                        });
+                    }
+
+                    function load_employee_to_view(view_employee_id) {
+                        $.ajax({
+                            type: "GET",
+                            contentType: "application/json",
+                            url: "${pageContext.servletContext.contextPath}/employee/" + view_employee_id,
+                            dataType: 'json',
+                            timeout: 10000,
+                            success: function (data) {
+                                $("#id_view_employee_id").text(data.id);
+                                $("#id_view_employee_name").text(data.employeeName);
+                                $("#id_view_employee_department").text(data.departmentName);
+                                $("#id_view_employee_gender").text(data.employeeGender);
+                                $("#id_view_employee_date_of_birth").text(data.employeeDateOfBirth);
+                                $("#id_view_employee_salary").text(data.employeeSalary);
+                                $("#id_view_employee_level").text(data.employeeLevel);
+                                $("#id_view_employee_phone_number").text(data.employeePhoneNumber);
+                                $("#id_view_employee_email").text(data.employeeEmail);
+                                $("#id_view_employee_avatar").attr("src", "http://localhost:8080/corp_management_webapp/" + data.employeeAvatar);
+                                toggle_employee_detail();
                             }
                         });
                     }

@@ -36,7 +36,7 @@ public class BranchResource extends ResourceSupport {
         return branchId;
     }
 
-    public Province getProvince() {
+    public int getProvince() {
         return provinceId;
     }
 
