@@ -140,17 +140,20 @@ public class EmployeeRESTController implements Serializable {
 
     //Update an employee 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-    public ResponseEntity<EmployeeResource> update_employee(@PathVariable("id") int id, @RequestBody Employee employee) {
+    public ResponseEntity<EmployeeResource> update_employee(@PathVariable("id") int id, @RequestBody EmployeeResource employee_resource) {
         Employee current_employee = dao_employee.get_employee_by_id(id);
-        current_employee.setDepartment(employee.getDepartment());
-        current_employee.setEmployeeName(employee.getEmployeeName());
-        current_employee.setEmployeeGender(employee.getEmployeeGender());
-        current_employee.setEmployeeAvatar(employee.getEmployeeAvatar());
-        current_employee.setEmployeeDateOfBirth(employee.getEmployeeDateOfBirth());
-        current_employee.setEmployeeSalary(employee.getEmployeeSalary());
-        current_employee.setEmployeeLevel(employee.getEmployeeLevel());
-        current_employee.setEmployeePhoneNumber(employee.getEmployeePhoneNumber());
-        current_employee.setEmployeeEmail(employee.getEmployeeEmail());
+        if (employee_resource.getEmployeeAvatar().contains("data:image/")) {
+            String avatar_file_name = "/assets/images/avatar/" + write_image_to_context_repository(employee_resource.getEmployeeAvatar());
+            current_employee.setEmployeeAvatar(avatar_file_name);
+        }
+        current_employee.setDepartment(dao_department.get_department_by_id(employee_resource.getDepartmentId()));
+        current_employee.setEmployeeName(employee_resource.getEmployeeName());
+        current_employee.setEmployeeGender(employee_resource.getEmployeeGender());
+        current_employee.setEmployeeDateOfBirth(employee_resource.getEmployeeDateOfBirth());
+        current_employee.setEmployeeSalary(employee_resource.getEmployeeSalary());
+        current_employee.setEmployeeLevel(employee_resource.getEmployeeLevel());
+        current_employee.setEmployeePhoneNumber(employee_resource.getEmployeePhoneNumber());
+        current_employee.setEmployeeEmail(employee_resource.getEmployeeEmail());
 
         boolean is_updated_employee = dao_employee.update_employee(current_employee);
         if (is_updated_employee) {
@@ -184,9 +187,7 @@ public class EmployeeRESTController implements Serializable {
 
             return temp.getName();
         } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
         } catch (IOException ex) {
-            ex.printStackTrace();
         }
         return null;
     }

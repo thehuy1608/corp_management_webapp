@@ -223,6 +223,7 @@ var toggle_employee_delete_form = function () {
     } else {
         id_employee_delete_form_modal.style.marginTop = "-500px";
     }
+    $("#id_employee_delete_message").text("");
 };
 
 var toggle_employee_success_form = function () {
@@ -243,6 +244,10 @@ var toggle_employee_success_form = function () {
     } else {
         id_employee_success_form_modal.style.marginTop = "-500px";
     }
+};
+
+var employee_success_form_button_action = function() {
+    location.href = location.href;
 };
 
 //var toggle_active_pagination = function (id_clicked_pagination_button) {
