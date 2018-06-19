@@ -137,10 +137,11 @@
                     <form action="${pageContext.servletContext.contextPath}/employee/ " method="get" class="style_employee_search_form">
                         <div class="style_employee_search_form_search_field_wrapper">
                             <div class="style_employee_search_form_input_text_wrapper">
-                                <label for="id_employee_search_form_input_text" class="style_form_input_text_label" id="id_employee_search_form_input_text_label">Find employee</label>
+                                <label for="id_employee_search_form_input_text" class="style_form_input_text_label" id="id_employee_search_form_input_text_label">Employee's Name</label>
                                 <input type="text" name="employee_search_name" value="" class="style_form_input_text" id="id_employee_search_form_input_text" onfocus="show_focus_border('id_employee_search_form_input_text_focus_border'); show_focus_label('id_employee_search_form_input_text_label');"
                                        onfocusout="hide_focus_border('id_employee_search_form_input_text_focus_border'); hide_focus_label('id_employee_search_form_input_text_label', 'id_employee_search_form_input_text');">
-                                <input type="hidden" name="page" value="${request.current_page_number}">
+                                <input type="hidden" name="page" value="${requestScope.current_page_number}">
+                                <input type="hidden" name="entries" value="${requestScope.entries}">
                                 <div class="style_form_textfield_border" id="id_employee_search_form_input_text_border"></div>
                                 <div class="style_form_textfield_focus_border" id="id_employee_search_form_input_text_focus_border"></div>
                             </div>
@@ -157,6 +158,51 @@
                         <c:if test="${requestScope.employees_list != null}">
                             <div class="style_employee_search_form_table_result">Found ${requestScope.total_result} results for employee's name like "${requestScope.current_search_name}"</div>
                         </c:if>
+                        <div style="grid-row:1/2;grid-column:2/3;align-self:center;justify-self:right;margin-right: 2px;" class="style_custom_select_option">
+                            <span style="margin-right: 10px; font-size: 18px;">Entries per page: </span>
+                            <select id="id_entries" onchange="reload_employee_table_entries()">
+                                <c:choose>
+                                    <c:when test="${requestScope.entries == 5}">
+                                        <option value="5" selected>5</option>
+                                    </c:when>
+                                    <c:when test="${requestScope.entries != 5}">
+                                        <option value="5">5</option>
+                                    </c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${requestScope.entries == 10}">
+                                        <option value="10" selected>10</option>
+                                    </c:when>
+                                    <c:when test="${requestScope.entries != 10}">
+                                        <option value="10">10</option>
+                                    </c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${requestScope.entries == 15}">
+                                        <option value="15" selected>15</option>
+                                    </c:when>
+                                    <c:when test="${requestScope.entries != 15}">
+                                        <option value="15">15</option>
+                                    </c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${requestScope.entries == 20}">
+                                        <option value="20" selected>20</option>
+                                    </c:when>
+                                    <c:when test="${requestScope.entries != 20}">
+                                        <option value="20">20</option>
+                                    </c:when>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${requestScope.entries == 25}">
+                                        <option value="25" selected>25</option>
+                                    </c:when>
+                                    <c:when test="${requestScope.entries != 25}">
+                                        <option value="25">25</option>
+                                    </c:when>
+                                </c:choose>
+                            </select>
+                        </div>
                         <table class="style_employee_search_form_table">
                             <tr>
                                 <th>#</th>
@@ -227,10 +273,10 @@
                             <li class="style_pagination_item" id="id_pagination_item_previous">
                                 <c:choose>
                                     <c:when test="${requestScope.current_page_number > 1 && requestScope.current_page_number <= requestScope.total_pages}">
-                                        <c:url var="pagination_previous_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=${requestScope.current_page_number - 1}"></c:url>
+                                        <c:url var="pagination_previous_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=${requestScope.current_page_number - 1}&entries=${requestScope.entries}"></c:url>
                                     </c:when>
                                     <c:when test="${requestScope.current_page_number <= 1}">
-                                        <c:url var="pagination_previous_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=1"></c:url>
+                                        <c:url var="pagination_previous_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=1&entries=${requestScope.entries}"></c:url>
                                     </c:when>
                                 </c:choose>
                                 <button style="display: inline-block" class="style_circle_button" id="id_pagination_item_button_previous">
@@ -249,10 +295,10 @@
                             <li class="style_pagination_item" id="id_pagination_item_next">
                                 <c:choose>
                                     <c:when test="${requestScope.current_page_number >= 1 && requestScope.current_page_number < requestScope.total_pages}">
-                                        <c:url var="pagination_next_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=${requestScope.current_page_number + 1}"></c:url>
+                                        <c:url var="pagination_next_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=${requestScope.current_page_number + 1}&entries=${requestScope.entries}"></c:url>
                                     </c:when>
                                     <c:when test="${requestScope.current_page_number >= requestScope.total_pages}">
-                                        <c:url var="pagination_next_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=${requestScope.total_pages}"></c:url>
+                                        <c:url var="pagination_next_button_action" value="http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.current_search_name}&page=${requestScope.total_pages}&entries=${requestScope.entries}"></c:url>
                                     </c:when>
                                 </c:choose>
                                 <button class="style_circle_button" id="id_pagination_item_button_next" onclick="">
@@ -671,6 +717,13 @@
                 </div>
             </div>
         </div>
+        <div class="style_loading_wrapper" id="id_loading_wrapper">
+            <div class="style_loader_wrapper" id="id_loader_wrapper">
+                <div class="style_loader" id="id_loader">
+
+                </div>
+            </div>
+        </div>
     </body>
     <script src="${js_jquery}"></script>
     <script src="${js_myeffects}"></script>
@@ -689,6 +742,7 @@
                             }
 
                             function load_employee_to_view(view_employee_id) {
+                                toggle_loading_pane();
                                 $.ajax({
                                     type: "GET",
                                     contentType: "application/json",
@@ -707,11 +761,13 @@
                                         $("#id_view_employee_email").text(data.employeeEmail);
                                         $("#id_view_employee_avatar").attr("src", "http://localhost:8080/corp_management_webapp/" + data.employeeAvatar);
                                         toggle_employee_detail();
+                                        toggle_loading_pane();
                                     }
                                 });
                             }
 
                             function load_employee_to_edit(edit_employee_id) {
+                                toggle_loading_pane();
                                 $.ajax({
                                     type: "GET",
                                     contentType: "application/json",
@@ -735,6 +791,7 @@
                                         $("#id_edit_employee_avatar").attr("src", "http://localhost:8080/corp_management_webapp/" + data.employeeAvatar);
                                         $("#id_employee_edit_button").attr("onclick", 'edit_employee(' + data.id + ')');
                                         toggle_employee_edit_form();
+                                        toggle_loading_pane();
                                     }
                                 });
                             }
@@ -747,6 +804,7 @@
 
 
                             function add_employee() {
+                                toggle_loading_pane();
                                 var branchId = 1;
                                 var departmentId = parseInt($('#employee_add_department').val());
                                 var employeeName = $('input[name=employee_add_name]').val().trim();
@@ -784,11 +842,13 @@
                                         toggle_employee_add_form();
                                         $("#id_employee_success_form_message").text('Add Employee Successful !');
                                         toggle_employee_success_form();
+                                        toggle_loading_pane();
                                     }
                                 });
                             }
 
                             function edit_employee(edit_employee_id) {
+                                toggle_loading_pane();
                                 var branchId = 1;
                                 var departmentId = parseInt($('#id_edit_employee_department').val());
                                 var departmentName = $('#id_edit_employee_department option:selected').text();
@@ -828,11 +888,13 @@
                                         toggle_employee_edit_form();
                                         $("#id_employee_success_form_message").text('Edit Employee Successful !');
                                         toggle_employee_success_form();
+                                        toggle_loading_pane();
                                     }
                                 });
                             }
 
                             function delete_employee(delete_employee_id) {
+                                toggle_loading_pane();
                                 var confirm_delete_employee_id = parseInt($('input[name=employee_delete_id]').val());
                                 if (confirm_delete_employee_id === delete_employee_id) {
                                     $.ajax({
@@ -845,12 +907,18 @@
                                             toggle_employee_delete_form();
                                             $("#id_employee_success_form_message").text('Delete Employee Successful !');
                                             toggle_employee_success_form();
+                                            toggle_loading_pane();
                                         }
                                     });
                                 } else {
                                     $("#id_employee_delete_message").text("ID does not match. Failed to delete");
                                 }
 
+                            }
+
+                            function reload_employee_table_entries() {
+                                var entries = parseInt($('#id_entries').val());
+                                location.href = 'http://localhost:8080/corp_management_webapp/employee/?employee_search_name=${requestScope.employee_search_name}&page=1&entries=' + entries;
                             }
 
 

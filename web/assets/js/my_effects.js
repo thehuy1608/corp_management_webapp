@@ -246,8 +246,98 @@ var toggle_employee_success_form = function () {
     }
 };
 
-var employee_success_form_button_action = function() {
+var employee_success_form_button_action = function () {
     location.href = location.href;
+};
+
+//Show/hide performance rate up-down vote
+var toggle_performance_rate_upvote = function () {
+    var id_performance_rate_upvote_wrapper = document.getElementById(
+            "id_performance_rate_upvote_wrapper"
+            );
+    var id_performance_rate_upvote_modal = document.getElementById(
+            "id_performance_rate_upvote_modal"
+            );
+    var style_performance_rate_upvote_modal = window.getComputedStyle(
+            id_performance_rate_upvote_modal
+            );
+    id_performance_rate_upvote_wrapper.classList.toggle(
+            "style_performance_rate_detail_wrapper_toggle"
+            );
+    if (style_performance_rate_upvote_modal.marginTop == "-500px") {
+        id_performance_rate_upvote_modal.style.marginTop = "100px";
+    } else {
+        id_performance_rate_upvote_modal.style.marginTop = "-500px";
+    }
+};
+
+var toggle_performance_rate_downvote = function () {
+    var id_performance_rate_downvote_wrapper = document.getElementById(
+            "id_performance_rate_downvote_wrapper"
+            );
+    var id_performance_rate_downvote_modal = document.getElementById(
+            "id_performance_rate_downvote_modal"
+            );
+    var style_performance_rate_downvote_modal = window.getComputedStyle(
+            id_performance_rate_downvote_modal
+            );
+    id_performance_rate_downvote_wrapper.classList.toggle(
+            "style_performance_rate_detail_wrapper_toggle"
+            );
+    if (style_performance_rate_downvote_modal.marginTop == "-500px") {
+        id_performance_rate_downvote_modal.style.marginTop = "100px";
+    } else {
+        id_performance_rate_downvote_modal.style.marginTop = "-500px";
+    }
+};
+
+var toggle_performance_rate_success = function () {
+    var id_performance_rate_success_wrapper = document.getElementById(
+            "id_performance_rate_success_wrapper"
+            );
+    var id_performance_rate_success_modal = document.getElementById(
+            "id_performance_rate_success_modal"
+            );
+    var style_performance_rate_success_modal = window.getComputedStyle(
+            id_performance_rate_success_modal
+            );
+    id_performance_rate_success_wrapper.classList.toggle(
+            "style_performance_rate_detail_wrapper_toggle"
+            );
+    if (style_performance_rate_success_modal.marginTop == "-500px") {
+        id_performance_rate_success_modal.style.marginTop = "100px";
+    } else {
+        id_performance_rate_success_modal.style.marginTop = "-500px";
+    }
+};
+
+var toggle_loading_pane = function () {
+    var id_loading_wrapper = document.getElementById(
+            "id_loading_wrapper"
+            );
+    id_loading_wrapper.classList.toggle(
+            "style_loading_wrapper_toggle"
+            );
+};
+
+var toggle_performance_tabs_pane = function (id_tab_button_name, id_tab_name) {
+    var id_tab_button = document.getElementById(id_tab_button_name);
+    var id_tab = document.getElementById(id_tab_name);
+    var id_tab_button_employee = document.getElementById("id_performance_result_employee_tabs");
+    var id_tab_button_department = document.getElementById("id_performance_result_department_tabs");
+    var id_tab_employee = document.getElementById("id_performance_employee_result_search_form_wrapper");
+    var id_tab_department = document.getElementById("id_performance_result_department_search_form_wrapper");
+    if (id_tab_button.classList.contains("style_performance_result_tabs_button_toggle ")) {
+
+    } else {
+        id_tab_button_employee.classList.remove("style_performance_result_tabs_button_toggle");
+        id_tab_button_department.classList.remove("style_performance_result_tabs_button_toggle");
+        id_tab_button.classList.add("style_performance_result_tabs_button_toggle");
+
+        id_tab_employee.classList.remove("style_performance_result_search_form_wrapper_toggle");
+        id_tab_department.classList.remove("style_performance_result_search_form_wrapper_toggle");
+        id_tab.classList.add("style_performance_result_search_form_wrapper_toggle");
+    }
 };
 
 //var toggle_active_pagination = function (id_clicked_pagination_button) {

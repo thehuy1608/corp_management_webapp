@@ -141,16 +141,17 @@ public class dao_employee {
      * Get 5 employees per call, start from the first result
      *
      * @param first_result
+     * @param entries
      * @return
      */
-    public static List<Employee> get_employees_list(int first_result) {
+    public static List<Employee> get_employees_list(int first_result, int entries) {
         List<Employee> employees_list;
         Session hibernate_session = HibernateUtil.getSessionFactory().openSession();
         try {
             hibernate_session.beginTransaction();
             String hql = "SELECT employee FROM Employee employee";
             Query query = hibernate_session.createQuery(hql);
-            query.setMaxResults(5);
+            query.setMaxResults(entries);
             query.setFirstResult(first_result);
             employees_list = query.list();
         } catch (Exception e) {
@@ -170,16 +171,17 @@ public class dao_employee {
      *
      * @param employee_name
      * @param first_result
+     * @param entries
      * @return
      */
-    public static List<Employee> get_employees_list(String employee_name, int first_result) {
+    public static List<Employee> get_employees_list(String employee_name, int first_result, int entries) {
         List<Employee> employees_list;
         Session hibernate_session = HibernateUtil.getSessionFactory().openSession();
         try {
             hibernate_session.beginTransaction();
             String hql = "SELECT employee FROM Employee employee WHERE employee.employeeName LIKE :employee_name";
             Query query = hibernate_session.createQuery(hql);
-            query.setMaxResults(5);
+            query.setMaxResults(entries);
             query.setFirstResult(first_result);
             query.setParameter("employee_name", "%" + employee_name + "%");
             employees_list = query.list();
@@ -212,7 +214,7 @@ public class dao_employee {
         hibernate_session.close();
         return total_employees;
     }
-    
+
     public static int get_total_employees(String employee_name) {
         int total_employees = 0;
         Session hibernate_session = HibernateUtil.getSessionFactory().openSession();
@@ -233,10 +235,4 @@ public class dao_employee {
         return total_employees;
     }
 
-    public static void main(String[] args) {
-        List<Employee> employees = get_employees_list("James Butt", 0);
-        employees.forEach(employee -> {
-            System.out.println(employee.getEmployeeName()); 
-        });
-    }
 }

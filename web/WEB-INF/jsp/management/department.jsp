@@ -125,7 +125,7 @@
                     <form action="${pageContext.servletContext.contextPath}/department/" class="style_department_management_search_form" method="get">
                         <div class="style_department_management_search_form_search_field_wrapper">
                             <div class="style_department_management_search_form_input_text_wrapper">
-                                <label for="id_department_management_search_form_input_text" class="style_form_input_text_label" id="id_department_management_search_form_input_text_label">Find department</label>
+                                <label for="id_department_management_search_form_input_text" class="style_form_input_text_label" id="id_department_management_search_form_input_text_label">Department's Name</label>
                                 <input type="text" name="search_department_name" value="" class="style_form_input_text" id="id_department_management_search_form_input_text" onfocus="show_focus_border('id_department_management_search_form_input_text_focus_border'); show_focus_label('id_department_management_search_form_input_text_label');"
                                        onfocusout="hide_focus_border('id_department_management_search_form_input_text_focus_border'); hide_focus_label('id_department_management_search_form_input_text_label', 'id_department_management_search_form_input_text');">
                                 <div class="style_form_textfield_border" id="id_department_management_search_form_input_text_border"></div>
@@ -231,12 +231,20 @@
                 </div>
             </div>
         </div>
+        <div class="style_loading_wrapper" id="id_loading_wrapper">
+            <div class="style_loader_wrapper" id="id_loader_wrapper">
+                <div class="style_loader" id="id_loader">
+
+                </div>
+            </div>
+        </div>
     </body>
     <script src="${js_jquery}"></script>
     <script src="${js_myeffects}"></script>
     <script>
                             //Load Current Department via AJAX to modal view
                             function load_department_to_view(view_department_id) {
+                                toggle_loading_pane();
                                 $.ajax({
                                     type: "GET",
                                     contentType: "application/json",
@@ -247,12 +255,14 @@
                                         $('#view_department_id').text(data.id);
                                         $('#view_department_name').text(data.departmentName);
                                         toggle_department_detail();
+                                        toggle_loading_pane();
                                     }
                                 });
                             }
                             ;
                             //Load Current Department via AJAX to modal form
                             function load_department_to_form(edit_department_id) {
+                                toggle_loading_pane();
                                 $.ajax({
                                     type: "GET",
                                     contentType: "application/json",
@@ -263,12 +273,14 @@
                                         $('#edit_department_id').val(data.id);
                                         $('#edit_department_name').val(data.departmentName);
                                         toggle_department_detail_form();
+                                        toggle_loading_pane();
                                     }
                                 });
                             }
                             ;
                             //Edit Current Department On Form
                             function edit_department() {
+                                toggle_loading_pane();
                                 var department_id = parseInt($('#edit_department_id').val());
                                 var department_name = $('#edit_department_name').val();
                                 let data = {"id": department_id, "departmentName": department_name};
@@ -285,6 +297,7 @@
                                         $('#edit_department_name').val(data.departmentName);
                                         var department_name_id = '#department_list_item_name_' + data.id;
                                         $(department_name_id).text(data.departmentName);
+                                        toggle_loading_pane();
                                     }
                                 });
                             }

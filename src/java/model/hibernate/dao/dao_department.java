@@ -185,4 +185,23 @@ public class dao_department {
         hibernate_session.close();
         return true;
     }
+    
+    public static int get_department_total_employees(Department department) {
+        int total_employees = 0;
+        Session hibernate_session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            hibernate_session.beginTransaction();
+            String hql = "SELECT COUNT(*) FROM Employee employee WHERE employee.department=:department";
+            Query query = hibernate_session.createQuery(hql);
+            query.setParameter("department", department);
+            Long result = (Long) query.uniqueResult();
+            total_employees = result.intValue();
+        } catch (Exception e) {
+            hibernate_session.flush();
+            hibernate_session.close();
+        }
+        hibernate_session.flush();
+        hibernate_session.close();
+        return total_employees;
+    }
 }

@@ -5,6 +5,7 @@
  */
 package controller.redirect_controller;
 
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,5 +25,16 @@ public class RedirectController {
     @RequestMapping("/employee")
     public String show_employee() {
         return "management/employee";
+    }
+    
+    @RequestMapping("/performance_rate")
+    public String show_performance_rate() {
+        return "management/performance_rate";
+    }
+    
+    @RequestMapping("/performance_result")
+    public String show_performance_result(HttpSession session) {
+        session.setAttribute("current_result_page", "employees_result");
+        return "management/performance_result";
     }
 }
