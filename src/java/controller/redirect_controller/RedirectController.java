@@ -51,6 +51,11 @@ public class RedirectController {
         session.setAttribute("current_result_page", "employees_result");
         return "management/performance_result";
     }
+    
+    @RequestMapping("/chart") 
+    public String show_chart() {
+        return "management/chart";
+    }
 
     @RequestMapping("/home")
     public String show_home(HttpServletRequest request) {

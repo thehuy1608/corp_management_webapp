@@ -112,7 +112,7 @@
                     </a>
                 </div>
                 <div class="style_side_menu_item" id="id_side_menu_10" onclick="toggle_active_side_menu_item(this)">
-                    <a href="#" class="style_side_menu_item_link">
+                    <a style="cursor: pointer" class="style_side_menu_item_link" onclick="exportTableToExcel('id_department_management_search_form_table', 'department')">
                         <img src="${img_export}" alt="" class="style_side_menu_item_link_icon">
                         <span class="style_side_menu_item_link_text" id="id_side_menu_text_10">Export</span>
                     </a>
@@ -155,7 +155,7 @@
                     </form>
                     <div class="style_department_management_search_form_table_wrapper">
                         <div class="style_department_management_search_form_table_result">Found ${departments_list.size()} results</div>
-                        <table class="style_department_management_search_form_table">
+                        <table id="id_department_management_search_form_table" class="style_department_management_search_form_table">
                             <tr>
                                 <th>#</th>
                                 <th>Department Name</th>
@@ -314,6 +314,7 @@
                                     }
                                 });
                             }
+                            
     </script>
 
 </html>

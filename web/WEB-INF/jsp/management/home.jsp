@@ -112,7 +112,7 @@
                     </a>
                 </div>
                 <div class="style_side_menu_item" id="id_side_menu_10" onclick="toggle_active_side_menu_item(this)">
-                    <a href="#" class="style_side_menu_item_link">
+                    <a style="cursor: pointer;" class="style_side_menu_item_link" onclick="exportTableToExcel('id_home_table', 'top_10_employee')">
                         <img src="${img_export}" alt="" class="style_side_menu_item_link_icon">
                         <span class="style_side_menu_item_link_text" id="id_side_menu_text_10">Export</span>
                     </a>
@@ -138,7 +138,7 @@
                 <div class="style_performance_result_search_form_wrapper" id="id_performance_employee_result_search_form_wrapper">
                     <div class="style_performance_result_search_form_table_wrapper">
                         <span style="grid-row: 1/2; grid-column: 2/3; align-self: center; justify-self: center; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; font-weight: bolder;">Top 10 employees</span>
-                        <table class="style_performance_result_search_form_table">
+                        <table id="id_home_table" class="style_performance_result_search_form_table">
                             <tr>
                                 <th>#</th>
                                 <th>Avatar</th>

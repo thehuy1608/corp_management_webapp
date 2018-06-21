@@ -112,10 +112,22 @@
                     </a>
                 </div>
                 <div class="style_side_menu_item" id="id_side_menu_10" onclick="toggle_active_side_menu_item(this)">
-                    <a href="#" class="style_side_menu_item_link">
-                        <img src="${img_export}" alt="" class="style_side_menu_item_link_icon">
-                        <span class="style_side_menu_item_link_text" id="id_side_menu_text_10">Export</span>
-                    </a>
+                    <c:choose>
+                        <c:when test="${sessionScope.current_result_page == 'employees_result'}">
+
+                            <a style="cursor: pointer;" class="style_side_menu_item_link" onclick="exportTableToExcel('id_employee_result_table', 'employee_performance_result')">
+                                <img src="${img_export}" alt="" class="style_side_menu_item_link_icon">
+                                <span class="style_side_menu_item_link_text" id="id_side_menu_text_10">Export</span>
+                            </a>
+                        </c:when>
+                        <c:when test="${sessionScope.current_result_page == 'departments_result'}">
+
+                            <a style="cursor: pointer;" class="style_side_menu_item_link" onclick="exportTableToExcel('id_department_result_table', 'department_result_table')">
+                                <img src="${img_export}" alt="" class="style_side_menu_item_link_icon">
+                                <span class="style_side_menu_item_link_text" id="id_side_menu_text_10">Export</span>
+                            </a>
+                        </c:when>
+                    </c:choose>
                 </div>
                 <div class="style_side_menu_item" id="id_side_menu_11">
                     <c:url var="logout_link" value="http://localhost:8080/corp_management_webapp/login/logout"></c:url>
@@ -235,7 +247,7 @@
                                     </c:choose>
                                 </select>
                             </div>
-                            <table class="style_performance_result_search_form_table">
+                                <table id="id_employee_result_table" class="style_performance_result_search_form_table">
                                 <tr>
                                     <th>#</th>
                                     <th>Avatar</th>
@@ -368,7 +380,7 @@
                             </form>
                             <div class="style_performance_result_search_form_table_wrapper" style="border-bottom-right-radius: 6px;border-bottom-left-radius: 6px;">
                                 <div class="style_performance_result_search_form_table_result">Found ${requestScope.departments_result_list.size()} results</div>
-                                <table class="style_performance_result_search_form_table">
+                                <table id="id_department_result_table" class="style_performance_result_search_form_table">
                                     <tr>
                                         <th>#</th>
                                         <th>Department Name</th>
