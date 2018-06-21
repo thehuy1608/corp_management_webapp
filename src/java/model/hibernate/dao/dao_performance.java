@@ -5,6 +5,7 @@
  */
 package model.hibernate.dao;
 
+import java.util.List;
 import model.hibernate.config.HibernateUtil;
 import model.hibernate.pojo.Performance;
 import org.hibernate.Query;
@@ -223,10 +224,31 @@ public class dao_performance {
         hibernate_session.close();
         return performance_result;
     }
-    
-    
+       
+    public static List<Performance> get_top_10_performances() {
+        List<Performance> top_10_performances = null;
+        Session hibernate_session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            hibernate_session.beginTransaction();
+            String hql = "SELECT performance FROM Performance DESC";
+            Query query = hibernate_session.createQuery(hql);
+            query.setFirstResult(0);
+            query.setMaxResults(10);
+            top_10_performances = query.list();
+            return top_10_performances;
+        } catch (Exception e) {
+            hibernate_session.flush();
+        hibernate_session.close();
+        }
+        hibernate_session.flush();
+        hibernate_session.close();
+        return top_10_performances;
+    }
 
     public static void main(String[] args) {
-        System.out.println(get_total_downvote_of_employee(21));
+        List<Performance> performances = get_top_10_performances();
+        performances.forEach(performance -> {
+            System.out.println(performance.getPerformanceId());
+        });
     }
 }

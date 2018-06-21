@@ -6,6 +6,7 @@
 package config;
 
 import java.util.Properties;
+import model.bean.Mailer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -57,5 +58,11 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
         mailSender.setJavaMailProperties(javaMailProperties);
         return mailSender;
+    }
+    
+    @Bean
+    public Mailer getMailer() {
+        Mailer mailer = new Mailer();
+        return mailer;
     }
 }

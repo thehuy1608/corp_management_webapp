@@ -10,6 +10,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+    <c:if test="${sessionScope.admin_account_id <= 0}">
+        <%
+            String redirectURL = "http://localhost:8080/corp_management_webapp/management/";
+            response.sendRedirect(redirectURL);
+        %>
+    </c:if>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,26 +53,29 @@
     <body>
         <div class="style_employee_management_wrapper">
             <div class="style_side_menu" id="id_side_menu">
-                <div class="style_side_menu_item" id="id_side_menu_1" onclick="toggle_active_side_menu_item(this)">
+                <div class="style_side_menu_item" id="id_side_menu_1" onclick="toggle_active_side_menu_item(this)">                    
                     <a href="#" class="style_side_menu_item_link">
                         <img src="${img_account}" alt="" class="style_side_menu_item_link_icon" style="margin-top: 22.5px;">
                         <span class="style_side_menu_item_link_text" id="id_side_menu_text_1">Himmy</span>
                     </a>
                 </div>
                 <div class="style_side_menu_item" id="id_side_menu_2" onclick="toggle_active_side_menu_item(this)">
-                    <a href="#" class="style_side_menu_item_link">
-                        <img src="${img_avatar}" alt="" class="style_side_menu_item_link_avatar" style="margin-top: 15px;">
-                        <span class="style_side_menu_item_link_text" id="id_side_menu_text_2" style="margin-left: 17.5px;">Thảo My</span>
+                    <spring:url var="current_admin_avatar_link" value="${sessionScope.current_admin_avatar}"></spring:url>
+                        <a href="#" class="style_side_menu_item_link">
+                            <img src="${current_admin_avatar_link}" alt="" class="style_side_menu_item_link_avatar" style="margin-top: 15px;">
+                        <span class="style_side_menu_item_link_text" id="id_side_menu_text_2" style="margin-left: 17.5px;">${sessionScope.current_admin_name}</span>
                     </a>
                 </div>
                 <div class="style_side_menu_item" id="id_side_menu_3" onclick="toggle_active_side_menu_item(this)">
-                    <a href="#" class="style_side_menu_item_link">
+                    <c:url var="home_link" value="http://localhost:8080/corp_management_webapp/management/home"></c:url>
+                    <a href="${home_link}" class="style_side_menu_item_link">
                         <img src="${img_dashboard}" alt="" class="style_side_menu_item_link_icon">
-                        <span class="style_side_menu_item_link_text" id="id_side_menu_text_3">Dashboard</span>
+                        <span class="style_side_menu_item_link_text" id="id_side_menu_text_3">Home</span>
                     </a>
                 </div>
                 <div class="style_side_menu_item" id="id_side_menu_4" onclick="toggle_active_side_menu_item(this)">
-                    <a href="#" class="style_side_menu_item_link">
+                    <c:url var="department_link" value="http://localhost:8080/corp_management_webapp/management/department"></c:url>
+                    <a href="${department_link}" class="style_side_menu_item_link">
                         <img src="${img_department}" alt="" class="style_side_menu_item_link_icon">
                         <span class="style_side_menu_item_link_text" id="id_side_menu_text_4">Department</span>
                     </a>
@@ -78,19 +87,22 @@
                     </a>
                 </div>
                 <div class="style_side_menu_item" id="id_side_menu_6" onclick="toggle_active_side_menu_item(this)">
-                    <a href="#" class="style_side_menu_item_link">
+                    <c:url var="employee_link" value="http://localhost:8080/corp_management_webapp/management/employee"></c:url>
+                    <a href="${employee_link}" class="style_side_menu_item_link">
                         <img src="${img_employee}" alt="" class="style_side_menu_item_link_icon">
                         <span class="style_side_menu_item_link_text" id="id_side_menu_text_6">Employee</span>
                     </a>
                 </div>
                 <div class="style_side_menu_item" id="id_side_menu_7" onclick="toggle_active_side_menu_item(this)">
-                    <a href="#" class="style_side_menu_item_link">
+                    <c:url var="performance_rate_link" value="http://localhost:8080/corp_management_webapp/management/performance_rate"></c:url>
+                    <a href="${performance_rate_link}" class="style_side_menu_item_link">
                         <img src="${img_performance_rate}" alt="" class="style_side_menu_item_link_icon">
                         <span class="style_side_menu_item_link_text" id="id_side_menu_text_7">Performance Rate</span>
                     </a>
                 </div>
                 <div class="style_side_menu_item" id="id_side_menu_8" onclick="toggle_active_side_menu_item(this)">
-                    <a href="#" class="style_side_menu_item_link">
+                    <c:url var="performance_result_link" value="http://localhost:8080/corp_management_webapp/management/performance_result"></c:url>
+                    <a href="${performance_result_link}" class="style_side_menu_item_link">
                         <img src="${img_performance_result}" alt="" class="style_side_menu_item_link_icon">
                         <span class="style_side_menu_item_link_text" id="id_side_menu_text_8">Performance Result</span>
                     </a>
@@ -108,7 +120,8 @@
                     </a>
                 </div>
                 <div class="style_side_menu_item" id="id_side_menu_11">
-                    <a href="#" class="style_side_menu_item_link">
+                    <c:url var="logout_link" value="http://localhost:8080/corp_management_webapp/login/logout"></c:url>
+                    <a href="${logout_link}" class="style_side_menu_item_link">
                         <img src="${img_logout}" alt="" class="style_side_menu_item_link_icon">
                         <span class="style_side_menu_item_link_text" id="id_side_menu_text_11">Log Out</span>
                     </a>

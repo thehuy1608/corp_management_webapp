@@ -7,6 +7,7 @@ package controller.management_controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import model.bean.Mailer;
 import model.hibernate.dao.dao_administrator;
 import model.hibernate.dao.dao_employee;
 import model.hibernate.dao.dao_performance;
@@ -37,6 +38,9 @@ public class PerformanceRateRESTController {
 
     @Autowired
     private PerformanceRateResourceAssembler assembler;
+    
+    @Autowired
+    Mailer mailer;
 
     //Create a performance rate
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
@@ -53,6 +57,11 @@ public class PerformanceRateRESTController {
         );
         boolean is_created_performance = dao_performance.add_performance(performance);
         if (is_created_performance) {
+            if (performance.getPerformanceResult() == 1) {
+                mailer.send("kisstherain12342@gmail.com", employee.getEmployeeEmail(), "New Upvote", administrator.getEmployee().getEmployeeName() + " gave you an upvote.\n Reason: " + performance.getPerformanceDescription());
+            } else {
+                mailer.send("kisstherain12342@gmail.com", employee.getEmployeeEmail(), "New Downvote", administrator.getEmployee().getEmployeeName() + " gave you a downvote.\n Reason: " + performance.getPerformanceDescription());
+            }
             return new ResponseEntity<>(assembler.to_resource(performance), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

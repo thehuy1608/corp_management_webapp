@@ -9,7 +9,7 @@ package model.resource.performance;
  *
  * @author WIN 10
  */
-public class PerformanceResultEmployee {
+public class PerformanceResultEmployee implements Comparable<PerformanceResultEmployee> {
 
     private final int employeeId;
     private final String employeeAvatar;
@@ -55,6 +55,11 @@ public class PerformanceResultEmployee {
 
     public int getResult() {
         return result;
+    }
+
+    @Override
+    public int compareTo(PerformanceResultEmployee other_result) {
+        return (-this.getResult() + other_result.getResult());
     }
 
 }

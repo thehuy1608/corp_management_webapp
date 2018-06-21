@@ -7,7 +7,6 @@ package model.bean;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.util.Random;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +55,7 @@ public class Mailer {
         }
     }
 
-    public void send_password(String to) {
-        final String new_password = get_salt_string();
+    public void send_password(String to, String new_password) {
         try {
             MimeMessage mail = mailer.createMimeMessage();
             MimeMessageHelper helper
@@ -66,21 +64,9 @@ public class Mailer {
             helper.setTo(to);
             helper.setReplyTo("kisstherain12342@gmail.com", "kisstherain12342@gmail.com");
             helper.setSubject("New Password");
-            helper.setText("Mật khẩu mới của bạn là:\n" + new_password, true);
+            helper.setText("Your new password is:\n" + new_password, true);
             mailer.send(mail);
         } catch (UnsupportedEncodingException | MessagingException | MailException e) {
         }
-    }
-
-    private static String get_salt_string() {
-        final String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-        StringBuilder salt = new StringBuilder();
-        Random random = new Random();
-        while (salt.length() < 18) {
-            int index = (int) (random.nextFloat() * SALTCHARS.length());
-            salt.append(SALTCHARS.charAt(index));
-        }
-        String salt_string = salt.toString();
-        return salt_string;
     }
 }

@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Jun 1, 2018 5:38:27 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.hibernate.pojo.Adminaccount" table="adminaccount" catalog="db_corp_management" optimistic-lock="version">
+    <class name="model.hibernate.pojo.Adminaccount" table="adminaccount" catalog="db_corp_management" optimistic-lock="version" lazy="false">
         <id name="fkAdministratorId" type="int">
             <column name="fkAdministratorId" />
             <generator class="foreign">
